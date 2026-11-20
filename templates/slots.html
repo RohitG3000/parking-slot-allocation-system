@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Slots{% endblock %}
+{% block content %}
+<h1>Manage Slots</h1>
+<div class="card">
+  <form method="post" action="{{ url_for('slots_add') }}">
+    <div class="row">
+      <div><label for="level">Level / zone</label><input id="level" name="level" maxlength="5" placeholder="G, 1, 2..." required></div>
+      <div><label for="slot_type">Slot type</label>
+        <select id="slot_type" name="slot_type">{% for code, label in VEHICLE_TYPES.items() %}<option value="{{ code }}">{{ label }}</option>{% endfor %}</select></div>
+      <div><label for="count">How many</label><input id="count" name="count" type="number" min="1" max="50" value="5" required></div>
+      <div><button type="submit">Add slots</button></div>
+    </div>
+    <p class="muted">Add the slots nearest the gate first: the system allocates the lowest-numbered free slot.</p>
+  </form>
+</div>
+<table>
+  <tr><th>#</th><th>Slot no.</th><th>Type</th><th>Level</th><th>Status</th><th></th></tr>
+  {% for s in slots %}
+  <tr>
+    <td>{{ s.slot_id }}</td><td>{{ s.slot_no }}</td><td>{{ VEHICLE_TYPES[s.slot_type] }}</td><td>{{ s.level }}</td>
+    <td>{{ 'Free' if s.is_free else 'Occupied' }}</td>
+    <td><form method="post" action="{{ url_for('slots_delete', slot_id=s.slot_id) }}" onsubmit="return confirm('Delete slot {{ s.slot_no }}?')">
+      <button class="danger small" type="submit">Delete</button></form></td>
+  </tr>
+  {% else %}<tr><td colspan="6" class="muted">No slots defined.</td></tr>{% endfor %}
+</table>
+{% endblock %}

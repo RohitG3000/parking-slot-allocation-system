@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Vehicle Entry{% endblock %}
+{% block content %}
+<h1>Vehicle Entry</h1>
+<div class="card">
+  <form method="post">
+    <div class="row">
+      <div><label for="vehicle_no">Vehicle number</label>
+        <input id="vehicle_no" name="vehicle_no" value="{{ vehicle_no }}" placeholder="e.g. DL01AB1234" required autofocus></div>
+      <div><label for="vehicle_type">Vehicle type</label>
+        <select id="vehicle_type" name="vehicle_type" required>
+          <option value="" disabled {% if not vehicle_type %}selected{% endif %}>Choose...</option>
+          {% for code, label in VEHICLE_TYPES.items() %}
+          <option value="{{ code }}" {% if vehicle_type == code %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select></div>
+    </div>
+    <p><button type="submit">Allocate slot &amp; issue ticket</button></p>
+  </form>
+</div>
+{% endblock %}

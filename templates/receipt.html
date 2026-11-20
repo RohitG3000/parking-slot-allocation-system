@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Receipt{% endblock %}
+{% block content %}
+<div class="slip">
+  <h2>Parking Receipt</h2>
+  <div class="big">&#8377;{{ r.amount }}</div>
+  <p style="text-align:center" class="muted">Paid</p>
+  <dl>
+    <dt>Receipt no.</dt><dd>R{{ '%05d' % r.bill_id }}</dd>
+    <dt>Ticket no.</dt><dd>{{ r.ticket_id|tno }}</dd>
+    <dt>Vehicle</dt><dd>{{ r.vehicle_no }}</dd>
+    <dt>Slot</dt><dd>{{ r.slot_no }}</dd>
+    <dt>Entry</dt><dd>{{ r.entry_time|dt }}</dd>
+    <dt>Exit</dt><dd>{{ r.exit_time|dt }}</dd>
+    <dt>Hours billed</dt><dd>{{ r.hours }}</dd>
+  </dl>
+</div>
+<p class="noprint" style="text-align:center">
+  <button onclick="window.print()">Print receipt</button>
+  <a class="btn" href="{{ url_for('exit_vehicle') }}">Next exit</a>
+</p>
+{% endblock %}

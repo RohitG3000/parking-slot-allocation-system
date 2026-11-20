@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Vehicle Exit{% endblock %}
+{% block content %}
+<h1>Vehicle Exit</h1>
+<div class="card">
+  <form method="post">
+    <label for="ref">Ticket number or vehicle number</label>
+    <input id="ref" name="ref" placeholder="e.g. T00012 or DL01AB1234" required autofocus>
+    <p><button type="submit">Find ticket</button></p>
+  </form>
+</div>
+{% endblock %}

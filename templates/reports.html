@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+<h1>Reports</h1>
+<div class="card">
+  <form method="get"><div class="row">
+    <div><label for="date">Date</label><input id="date" name="date" type="date" value="{{ day }}"></div>
+    <div><button type="submit">Show</button></div>
+  </div></form>
+</div>
+
+<h2>Current occupancy</h2>
+<table>
+  <tr><th>Type</th><th>Total</th><th>Occupied</th><th>Free</th></tr>
+  {% for o in occupancy %}<tr><td>{{ VEHICLE_TYPES[o.slot_type] }}</td><td>{{ o.total }}</td><td>{{ o.occupied }}</td><td>{{ o.free_slots }}</td></tr>
+  {% else %}<tr><td colspan="4" class="muted">No slots.</td></tr>{% endfor %}
+</table>
+
+<h2>Summary for {{ day }}</h2>
+<div class="grid">
+  <div class="card"><div class="muted">Vehicles entered</div><div class="stat">{{ entries }}</div></div>
+  <div class="card"><div class="muted">Vehicles billed</div><div class="stat">{{ totals.vehicles }}</div></div>
+  <div class="card"><div class="muted">Revenue</div><div class="stat">&#8377;{{ totals.revenue }}</div></div>
+</div>
+
+<h2>Bills on {{ day }}</h2>
+<table>
+  <tr><th>Receipt</th><th>Ticket</th><th>Vehicle</th><th>Slot</th><th>Entry</th><th>Exit</th><th>Hours</th><th>Amount</th></tr>
+  {% for b in bills %}
+  <tr><td>R{{ '%05d' % b.bill_id }}</td><td>{{ b.ticket_id|tno }}</td><td>{{ b.vehicle_no }}</td><td>{{ b.slot_no }}</td>
+      <td>{{ b.entry_time|dt }}</td><td>{{ b.exit_time|dt }}</td><td>{{ b.hours }}</td><td>&#8377;{{ b.amount }}</td></tr>
+  {% else %}<tr><td colspan="8" class="muted">No bills on this date.</td></tr>{% endfor %}
+</table>
+
+<h2>Revenue, last 7 days with bills</h2>
+<table>
+  <tr><th>Date</th><th>Vehicles</th><th>Revenue</th></tr>
+  {% for d in last7 %}<tr><td>{{ d.day }}</td><td>{{ d.vehicles }}</td><td>&#8377;{{ d.revenue }}</td></tr>
+  {% else %}<tr><td colspan="3" class="muted">No revenue recorded yet.</td></tr>{% endfor %}
+</table>
+{% endblock %}

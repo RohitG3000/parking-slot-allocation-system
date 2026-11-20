@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Users{% endblock %}
+{% block content %}
+<h1>Users</h1>
+<div class="card">
+  <form method="post">
+    <div class="row">
+      <div><label for="username">Username</label><input id="username" name="username" required></div>
+      <div><label for="password">Password (6+ chars)</label><input id="password" name="password" type="password" required></div>
+      <div><label for="role">Role</label><select id="role" name="role"><option value="operator">Operator</option><option value="admin">Admin</option></select></div>
+      <div><button type="submit">Add user</button></div>
+    </div>
+  </form>
+</div>
+<table>
+  <tr><th>ID</th><th>Username</th><th>Role</th><th></th></tr>
+  {% for u in users %}
+  <tr><td>{{ u.user_id }}</td><td>{{ u.username }}</td><td>{{ u.role }}</td>
+    <td><form method="post" action="{{ url_for('users_delete', user_id=u.user_id) }}" onsubmit="return confirm('Delete {{ u.username }}?')">
+      <button class="danger small" type="submit">Delete</button></form></td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

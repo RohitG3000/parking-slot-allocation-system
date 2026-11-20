@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Parking Ticket{% endblock %}
+{% block content %}
+<div class="slip">
+  <h2>Parking Ticket</h2>
+  <div class="big">{{ t.slot_no }}</div>
+  <p style="text-align:center" class="muted">Your slot (Level {{ t.level }})</p>
+  <dl>
+    <dt>Ticket no.</dt><dd>{{ t.ticket_id|tno }}</dd>
+    <dt>Vehicle</dt><dd>{{ t.vehicle_no }} ({{ VEHICLE_TYPES[t.slot_type] }})</dd>
+    <dt>Entry time</dt><dd>{{ t.entry_time|dt }}</dd>
+    <dt>Issued by</dt><dd>{{ t.username }}</dd>
+    <dt>Status</dt><dd>{{ t.status }}</dd>
+  </dl>
+</div>
+<p class="noprint" style="text-align:center">
+  <button onclick="window.print()">Print ticket</button>
+  <a class="btn" href="{{ url_for('entry') }}">New entry</a>
+</p>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Dashboard</h1>
+<div class="grid">
+  {% for s in summary %}
+  <div class="card">
+    <div class="muted">{{ VEHICLE_TYPES[s.slot_type] }} slots</div>
+    <div class="stat">{{ s.free_slots }} free</div>
+    <div class="muted">{{ s.occupied }} occupied of {{ s.total }}</div>
+  </div>
+  {% else %}
+  <div class="card">No slots yet. {% if session.role == 'admin' %}<a href="{{ url_for('slots') }}">Add slots</a>.{% endif %}</div>
+  {% endfor %}
+</div>
+<h2>Currently parked ({{ open_tickets|length }})</h2>
+<table>
+  <tr><th>Ticket</th><th>Vehicle</th><th>Slot</th><th>Entered</th><th>Parked for</th><th></th></tr>
+  {% for t in open_tickets %}
+  <tr>
+    <td>{{ t.ticket_id|tno }}</td><td>{{ t.vehicle_no }}</td>
+    <td><span class="badge">{{ t.slot_no }}</span></td>
+    <td>{{ t.entry_time|dt }}</td><td>{{ t.entry_time|duration }}</td>
+    <td><a class="btn small" href="{{ url_for('exit_bill', ticket_id=t.ticket_id) }}">Exit</a></td>
+  </tr>
+  {% else %}<tr><td colspan="6" class="muted">No vehicles parked.</td></tr>{% endfor %}
+</table>
+{% endblock %}

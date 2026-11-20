@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Bill{% endblock %}
+{% block content %}
+<h1>Bill for {{ t.ticket_id|tno }}</h1>
+<div class="card">
+  <table>
+    <tr><th>Vehicle</th><td>{{ t.vehicle_no }} ({{ VEHICLE_TYPES[t.slot_type] }})</td></tr>
+    <tr><th>Slot</th><td>{{ t.slot_no }}</td></tr>
+    <tr><th>Entry time</th><td>{{ t.entry_time|dt }}</td></tr>
+    <tr><th>Exit time (now)</th><td>{{ now|dt }}</td></tr>
+    <tr><th>Parked for</th><td>{{ t.entry_time|duration(now) }}</td></tr>
+    <tr><th>Billable hours</th><td>{{ hours }} (rounded up)</td></tr>
+    <tr><th>Rate</th><td>&#8377;{{ rate.first_hour }} first hour + &#8377;{{ rate.extra_hour }} per extra hour</td></tr>
+    <tr><th>Amount due</th><td class="stat">&#8377;{{ amount }}</td></tr>
+  </table>
+  <form method="post" action="{{ url_for('exit_pay', ticket_id=t.ticket_id) }}">
+    <p><button class="ok" type="submit">Collect payment &amp; release slot</button></p>
+  </form>
+</div>
+{% endblock %}
