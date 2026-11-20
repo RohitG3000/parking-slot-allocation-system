@@ -326,4 +326,4 @@ Rohit Gupta
 
 ## Note
 
-This project is created for academic purposes (Software Engineering Lab, CIC-309) and demonstrates the software engineering process: requirements specification, UML design, implementation with a relational database, and testing.
+This project is created for academic purposes (Software Engineering) and demonstrates the software engineering process: requirements specification, UML design, implementation with a relational database, and testing.
